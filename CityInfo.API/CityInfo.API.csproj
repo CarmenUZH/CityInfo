@@ -11,4 +11,10 @@
 	  <!-- swagger ui-->
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="testpdf.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

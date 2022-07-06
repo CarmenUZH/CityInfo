@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.StaticFiles;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Starting point of our application, Main Methods gets created behind the scenes
@@ -9,6 +11,7 @@ builder.Services.AddControllers(options => //Registers necessary services to imp
 //Addcontrollesrwithviews would also regiester services for views, but this application is just for api so we dont really need views - Maybe better for ASPtest
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); //Register required services - The reason things work
+builder.Services.AddSingleton<FileExtensionContentTypeProvider>(); //To read PDF files, Singleton necesarry
 
 var app = builder.Build(); //build webaplication and returns it (app)
 
