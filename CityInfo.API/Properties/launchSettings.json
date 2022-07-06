@@ -13,8 +13,8 @@
     "CityInfo.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
-      "launchUrl": "swagger",
+      "launchBrowser": true, //will it launch the browser when we start the application
+      "launchUrl": "swagger", //Where documentation will be shown
       "applicationUrl": "https://localhost:7189;http://localhost:5189",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
