@@ -1,4 +1,4 @@
-﻿namespace CityInfo.API.Controllers.Models
+﻿namespace CityInfo.API.Models
 {
     public class CityDto
     {
