@@ -6,8 +6,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options => //Registers necessary services to implement controllers (Remember we're in MVC)
 {
+    options.SuppressAsyncSuffixInActionNames = false;
     options.ReturnHttpNotAcceptable = true; //When user asks for result in format we dont accept we should tell him that instead of reverting to Json
-}).AddXmlDataContractSerializerFormatters(); //add xml support
+}).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
+
+//add xml support
 //Addcontrollesrwithviews would also regiester services for views, but this application is just for api so we dont really need views - Maybe better for ASPtest
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); //Register required services - The reason things work
