@@ -17,7 +17,7 @@ namespace CityInfo.API.Controllers
         [HttpGet("{id}")]
         public JsonResult GetCity(int id)
         {
-            return new JsonResult(CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == id)); //FirstOrDefault returns first match or default value
+            return new JsonResult(CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == id)); //FirstOrDefault returns first match or default value, will return "null" for nonexistant values
         }
     }
 }
