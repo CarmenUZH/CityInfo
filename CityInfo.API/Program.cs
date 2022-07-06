@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
+/*builder.Logging.ClearProviders();
+builder.Logging.AddConsole();*/ //You can manually "unsubscribe" from all loggers and add them by hand if you want
 
 // Starting point of our application, Main Methods gets created behind the scenes
 
