@@ -2,7 +2,7 @@
 {
     public class CloudMailService : IMailService
     {
-        private string _mailTo = "cloudadmin@mycompany.com"; //Adresses could also be stored in appsettings (see the previous .Net tutorial)
+        private string _mailTo = "cloudadmin@mycompany.com"; //Adresses could also be stored in appsettings (see the previous .Net tutorial) with IConfiguration
         private string _mailFrom = "cloudworker@mycompany.com";
 
         public void Send(string subject, string message)
