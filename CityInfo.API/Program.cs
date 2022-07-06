@@ -30,7 +30,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); //Register required services - The reason things work
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>(); //To read PDF files, Singleton necesarry
 
-builder.Services.AddTransient<LocalMailService>(); //register service in container so that we can inject it using the built-in dependency injection system
+builder.Services.AddTransient<IMailService, CloudMailService>(); //register service in container so that we can inject it using the built-in dependency injection system
+//Implement the Interface to allow for different implementations
 
 var app = builder.Build(); //build webaplication and returns it (app)
 

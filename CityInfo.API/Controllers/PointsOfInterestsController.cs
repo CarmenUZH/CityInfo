@@ -11,9 +11,9 @@ namespace CityInfo.API.Controllers
     public class PointsOfInterestsController : ControllerBase
     {
         private readonly ILogger<PointsOfInterestsController> _logger;
-        private readonly LocalMailService _mailer;
+        private readonly IMailService _mailer;
 
-        public PointsOfInterestsController(ILogger<PointsOfInterestsController> logger, LocalMailService mailer)
+        public PointsOfInterestsController(ILogger<PointsOfInterestsController> logger, IMailService mailer)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger)); //null-check
             _mailer = mailer ?? throw new ArgumentNullException(nameof(mailer));
@@ -151,7 +151,7 @@ namespace CityInfo.API.Controllers
         }
 
         [HttpDelete("{pointOfInterestId}")] //Deleting let's GOOOOOOO, Basel Bahnhof can finally perish
-        public ActionResult DeletePointOfInterest(int cityId, int pointId)
+        public ActionResult DeletePointOfInterest(int cityId, int pointOfInterestId) //pointofInterestId needs to have same name to the above https things
         {
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
 
@@ -160,13 +160,14 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
 
-            var point = city.PointsOfInterest.FirstOrDefault(c => c.Id == pointId);
+            var point = city.PointsOfInterest.FirstOrDefault(c => c.Id == pointOfInterestId);
             if (point == null)
             {
                 return NotFound();
             }
 
             city.PointsOfInterest.Remove(point);
+            _mailer.Send("Point of interest deleted", $"Point of interest {point.Name} with id {point.Id} was removed");
             return NoContent();
         }
 
