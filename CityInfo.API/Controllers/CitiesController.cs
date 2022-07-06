@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CityInfo.API.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.API.Controllers
 {
@@ -8,16 +9,23 @@ namespace CityInfo.API.Controllers
     {
         [HttpGet] //Specify routes with attributes (see Program.cs) - Here you dont need to input a specific route because its the base route!
         //you can input [HttpGet("api/[controller]")] because the name matches (refactoring the name would cause problems later tho!)
-        public JsonResult GetCities()
+        public ActionResult<IEnumerable<CityDto>> GetCities()
         {
-           return new JsonResult(
+
+           return Ok(
               CitiesDataStore.Current.Cities );
         }
 
         [HttpGet("{id}")]
-        public JsonResult GetCity(int id)
+        public ActionResult<CityDto> GetCity(int id) //Return an actionresult and not something like Json because this makes us Independent
         {
-            return new JsonResult(CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == id)); //FirstOrDefault returns first match or default value, will return "null" for nonexistant values
+            var cityToReturn = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == id);
+           //FirstOrDefault returns first match or default value, will return "null" for nonexistant values
+           if(cityToReturn == null)
+            {
+                return NotFound();
+            }
+           return Ok(cityToReturn); //Return city with 200ok statues
         }
     }
 }
