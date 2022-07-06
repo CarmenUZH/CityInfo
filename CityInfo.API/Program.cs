@@ -1,3 +1,4 @@
+using CityInfo.API;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
@@ -35,6 +36,7 @@ builder.Services.AddTransient<IMailService, LocalMailService>(); //register serv
 builder.Services.AddTransient<IMailService, CloudMailService>(); //register service in container so that we can inject it using the built-in dependency injection system
 #endif
 
+builder.Services.AddSingleton<CitiesDataStore>();
 //Implement the Interface to allow for different implementations
 
 var app = builder.Build(); //build webaplication and returns it (app)
