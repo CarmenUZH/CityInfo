@@ -36,5 +36,11 @@ namespace CityInfo.API.Controllers
             return Ok(point);
 
         }
+
+        [HttpPost] //Posting let's GOOOOOOO
+        public ActionResult<PointOfInterestDto> CreatePointOfInterest(int cityId, POIforCreationDto POI)
+        {
+            
+        }
     }
 }
