@@ -3,18 +3,21 @@
 namespace CityInfo.API.Controllers
 {
     [ApiController]
+    [Route("api/cities")] //handles base route
     public class CitiesController: ControllerBase
     {
-        [HttpGet("api/[controller]")] //Specify routes with attributes (see Program.cs)
-        //you can input controller because the name matches (refactoring the name would cause problems later tho!)
+        [HttpGet] //Specify routes with attributes (see Program.cs) - Here you dont need to input a specific route because its the base route!
+        //you can input [HttpGet("api/[controller]")] because the name matches (refactoring the name would cause problems later tho!)
         public JsonResult GetCities()
         {
            return new JsonResult(
-                new List<object>
-                {
-                    new { id = 1, Name="Basel" },
-                    new{id = 2, Name="Bern"} 
-                });
+              CitiesDataStore.Current.Cities );
+        }
+
+        [HttpGet("{id}")]
+        public JsonResult GetCity(int id)
+        {
+            return new JsonResult(CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == id)); //FirstOrDefault returns first match or default value
         }
     }
 }
