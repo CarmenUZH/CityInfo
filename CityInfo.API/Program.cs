@@ -1,7 +1,8 @@
+using CityInfo.API.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Serilog;
 
-Log.Logger = new LoggerConfiguration()
+Log.Logger = new LoggerConfiguration() //External logger! yay!
     .MinimumLevel.Debug()
     .WriteTo.Console()
     .WriteTo.File("logs/cityinfo.txt", rollingInterval: RollingInterval.Day) //create new file every day
@@ -28,6 +29,8 @@ builder.Services.AddControllers(options => //Registers necessary services to imp
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); //Register required services - The reason things work
 builder.Services.AddSingleton<FileExtensionContentTypeProvider>(); //To read PDF files, Singleton necesarry
+
+builder.Services.AddTransient<LocalMailService>(); //register service in container so that we can inject it using the built-in dependency injection system
 
 var app = builder.Build(); //build webaplication and returns it (app)
 
