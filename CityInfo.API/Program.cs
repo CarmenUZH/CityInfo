@@ -11,13 +11,13 @@ var app = builder.Build(); //build webaplication and returns it (app)
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(); //Middleware, lets swagger appear
+    app.UseSwagger(); //Generates a file, useswaggerui makes file pretty
+    app.UseSwaggerUI(); //Middleware, lets swagger appear //Whenever a request comes in, documentation will be shown
 }
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
+app.UseAuthorization(); //Authentication should be added pretty early on 
 
 app.MapControllers();
 /*
