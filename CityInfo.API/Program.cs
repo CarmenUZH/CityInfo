@@ -1,6 +1,6 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Starting point of our application
+// Starting point of our application, Main Methods gets created behind the scenes
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
