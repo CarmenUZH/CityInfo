@@ -2,7 +2,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Starting point of our application, Main Methods gets created behind the scenes
 
-builder.Services.AddControllers();//Registers necessary services to implement controllers (Remember we're in MVC)
+builder.Services.AddControllers(options => //Registers necessary services to implement controllers (Remember we're in MVC)
+{
+    options.ReturnHttpNotAcceptable = true; //When user asks for result in format we dont accept we should tell him that instead of reverting to Json
+}).AddXmlDataContractSerializerFormatters(); //add xml support
 //Addcontrollesrwithviews would also regiester services for views, but this application is just for api so we dont really need views - Maybe better for ASPtest
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); //Register required services - The reason things work
