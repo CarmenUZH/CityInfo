@@ -24,6 +24,7 @@ namespace CityInfo.API.Controllers
 
             if (city == null)
             {
+                _logger.LogInformation($"City with id {cityId} wasn't found. Haha just like George."); //Log the information of your failure to the Console so you know
                 return NotFound();
             }
             return Ok(city.PointsOfInterest);
