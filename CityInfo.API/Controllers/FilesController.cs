@@ -10,7 +10,7 @@ namespace CityInfo.API.Controllers
     {
 
         private readonly FileExtensionContentTypeProvider _fileExtensionContentTypeProvider;
-        public FilesController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
+        public FilesController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider) //Basically says "figure out what file type you need"
         {
             _fileExtensionContentTypeProvider = fileExtensionContentTypeProvider ??
                 throw new System.ArgumentNullException(nameof(fileExtensionContentTypeProvider));
@@ -31,7 +31,7 @@ namespace CityInfo.API.Controllers
                 contentType = "application/octet-stream";
             }
             var bytes = System.IO.File.ReadAllBytes(pathToFile);
-            return File(bytes, "text/plain", Path.GetFileName(pathToFile)); //Content type for pdf is not "text/plain", should be
+            return File(bytes,contentType, Path.GetFileName(pathToFile)); //Content type for pdf is not "text/plain", gets determined by the file extension content blödsinn
         }
     }
 }
