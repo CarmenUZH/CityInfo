@@ -1,4 +1,5 @@
 ﻿{
+  //Set-up environment for local machines
   "$schema": "https://json.schemastore.org/launchsettings.json",
   "iisSettings": {
     "windowsAuthentication": false,
