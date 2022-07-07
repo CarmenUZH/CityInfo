@@ -57,5 +57,10 @@ namespace CityInfo.API.Services
             return await _context.PointsOfInterest.Where(c => c.CityId == cityId).ToListAsync();
 
         }
+
+        public void DeletePointOfInterest(PointOfInterest pointOfInterest)
+        {
+           _context.PointsOfInterest.Remove(pointOfInterest);
+        }
     }
 }

@@ -56,8 +56,8 @@ namespace CityInfo.API.Controllers
                 throw;
         }*/
         }
-        [HttpGet("{pointofinterestid}", Name = "GetPOIid")]
-        public async Task<ActionResult<PointOfInterestDto>> GetPointOfInterest(int cityId, int pointOfInterestId)
+        [HttpGet("{pointofinterestid}", Name = "GetPOIid")] //NAMES NEED TO BE SAME (pointofinterestid)
+        public async Task<ActionResult<PointOfInterestDto>> GetPointOfInterest(int cityId, int pointofinterestid)
         {
             if (!await _citiesDataStore.CityExistsAsync(cityId))
             {
@@ -66,12 +66,12 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
 
-            var pointOfInterest = await _citiesDataStore.GetPointOfInterestForCityAsync(cityId, pointOfInterestId);
+            var pointOfInterest = await _citiesDataStore.GetPointOfInterestForCityAsync(cityId, pointofinterestid);
             if (pointOfInterest == null)
             {
                 return NotFound();
             }
-            return Ok(_mapper.Map<IEnumerable<PointOfInterestDto>>(pointOfInterest));
+            return Ok(_mapper.Map<PointOfInterestDto>(pointOfInterest));
 
         }
 
@@ -107,7 +107,7 @@ namespace CityInfo.API.Controllers
 
 
         [HttpPut("{pointofinterestid}", Name = "PutPOIid")] //Put should fully update the thing, Patch for partial
-        public async Task< ActionResult> UpdatePointOfInterest(int cityId, int pointOfInterestId, POIforUpdateDto POI)
+        public async Task< ActionResult> UpdatePointOfInterest(int cityId, int pointofinterestid, POIforUpdateDto POI)
         {
             if (!await _citiesDataStore.CityExistsAsync(cityId))
             {
@@ -116,74 +116,81 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
 
-            var pointOfInterest = await _citiesDataStore.GetPointOfInterestForCityAsync(cityId, pointOfInterestId);
+            var pointOfInterest = await _citiesDataStore.GetPointOfInterestForCityAsync(cityId, pointofinterestid);
             if (pointOfInterest == null)
             {
                 return NotFound();
             }
 
             _mapper.Map(POI, pointOfInterest);
-
-            point.Name = POI.Name;
-            point.Description = POI.Description;
+            await _citiesDataStore.SaveChangesAsync();
             return NoContent();
 
         }
-        [HttpPatch("{pointofinterestid}", Name = "PatchPOIid")] //Put should fully update the thing, Patch for partial
-        public ActionResult PatchPointOfInterest(int cityId, int pointOfInterestId, JsonPatchDocument<POIforUpdateDto> patchDocument)
+        [HttpPatch("{pointofinterestid}")]
+        public async Task<ActionResult> PartiallyUpdatePointOfInterest(
+          int cityId, int pointofinterestid,
+          JsonPatchDocument<POIforUpdateDto> patchDocument)
         {
-            var city = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == cityId);
-
-            if (city == null)
-            {
-                return NotFound();
-            }
-            var point = city.PointsOfInterest.FirstOrDefault(c => c.Id == pointOfInterestId);
-            if (point == null)
+            if (!await _citiesDataStore.CityExistsAsync(cityId))
             {
                 return NotFound();
             }
 
-            var POIpatch = new POIforUpdateDto()
+            var pointOfInterestEntity = await _citiesDataStore
+                .GetPointOfInterestForCityAsync(cityId, pointofinterestid);
+            if (pointOfInterestEntity == null)
             {
-                Name = point.Name,
-                Description = point.Description
-            };
-            patchDocument.ApplyTo(POIpatch, ModelState);
+                return NotFound();
+            }
+
+            var pointOfInterestToPatch = _mapper.Map<POIforUpdateDto>(
+                pointOfInterestEntity);
+
+            patchDocument.ApplyTo(pointOfInterestToPatch, ModelState);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (!TryValidateModel(POIpatch)) //Basically, if your update tries to do something illega (like remove the name) it wont work
+
+            if (!TryValidateModel(pointOfInterestToPatch))
             {
                 return BadRequest(ModelState);
             }
-            point.Name = POIpatch.Name;
-            point.Description = POIpatch.Description;
-            return NoContent();
 
+            _mapper.Map(pointOfInterestToPatch, pointOfInterestEntity);
+            await _citiesDataStore.SaveChangesAsync();
+
+            return NoContent();
         }
 
-        [HttpDelete("{pointOfInterestId}")] //Deleting let's GOOOOOOO, Basel Bahnhof can finally perish
-        public ActionResult DeletePointOfInterest(int cityId, int pointOfInterestId) //pointofInterestId needs to have same name to the above https things
+        [HttpDelete("{pointofinterestid}")]
+        public async Task<ActionResult> DeletePointOfInterest(
+            int cityId, int pointofinterestid)
         {
-            var city = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == cityId);
-
-            if (city == null)
+            if (!await _citiesDataStore.CityExistsAsync(cityId))
             {
                 return NotFound();
             }
 
-            var point = city.PointsOfInterest.FirstOrDefault(c => c.Id == pointOfInterestId);
-            if (point == null)
+            var pointOfInterestEntity = await _citiesDataStore
+                .GetPointOfInterestForCityAsync(cityId, pointofinterestid);
+            if (pointOfInterestEntity == null)
             {
                 return NotFound();
             }
 
-            city.PointsOfInterest.Remove(point);
-            _mailer.Send("Point of interest deleted", $"Point of interest {point.Name} with id {point.Id} was removed");
+            _citiesDataStore.DeletePointOfInterest(pointOfInterestEntity); //CHECK TUTORIAL
+            await _citiesDataStore.SaveChangesAsync();
+
+            _mailer.Send(
+                "Point of interest deleted.",
+                $"Point of interest {pointOfInterestEntity.Name} with id {pointOfInterestEntity.Id} was deleted.");
+
             return NoContent();
         }
+
 
     }
 }

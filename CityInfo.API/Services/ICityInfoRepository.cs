@@ -10,6 +10,7 @@ namespace CityInfo.API.Services
         Task<bool> CityExistsAsync(int cityId);
         Task<PointOfInterest?>GetPointOfInterestForCityAsync(int cityId, int pointOfInterestId);
         Task AddPOIForCityAsync(int cityId, PointOfInterest POI);
+        void DeletePointOfInterest(PointOfInterest pointOfInterest); //Async does not make sense here because its a memory operation
         Task<bool> SaveChangesAsync();
     }
 }
