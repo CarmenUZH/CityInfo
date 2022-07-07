@@ -13,7 +13,7 @@ namespace CityInfo.API.DbContexts
 
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder) //Seed database (DONT FORGET TO MIGRADE AND UPDATE!)
         {
             modelBuilder.Entity<City>().HasData(
                 new City("Basel")
