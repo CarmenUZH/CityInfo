@@ -13,6 +13,9 @@ namespace CityInfo.API.Entities
         [MaxLength(55, ErrorMessage = "This duud thinks he can get away with writing some buuullshit in the name, huh?")]
         public string Name { get; set; }
 
+        [MaxLength(200, ErrorMessage = "Glad you had fun but you dont need to tell me your WHOLE life story, ya know?")]
+
+        public string? Description { get; set; }
         [ForeignKey("CityId")] //Not necessary but provides clarity for other developers
         public City? City { get; set; } //Provide relation between PointOfInterest and City,
         public int CityId { get; set; } // Forein Key
