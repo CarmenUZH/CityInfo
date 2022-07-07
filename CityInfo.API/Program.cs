@@ -43,6 +43,8 @@ builder.Services.AddSingleton<CitiesDataStore>(); //Dependency injection
 builder.Services.AddDbContext<CityContext>(dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:CityDBConnectionString"])); //Can be defined in system itself to keep save, but for our purposes too advanced
 //Implement the Interface to allow for different implementations
 
+builder.Services.AddScoped<ICityInfoRepository, CityRepository>(); //Create and use Repositrory
+
 var app = builder.Build(); //build webaplication and returns it (app)
 
 // Configure the HTTP request pipeline.
