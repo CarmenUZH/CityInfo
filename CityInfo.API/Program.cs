@@ -45,6 +45,8 @@ builder.Services.AddDbContext<CityContext>(dbContextOptions => dbContextOptions.
 
 builder.Services.AddScoped<ICityInfoRepository, CityRepository>(); //Create and use Repositrory
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies()); //Damn, really gotta register EVERY service, huh?
+
 var app = builder.Build(); //build webaplication and returns it (app)
 
 // Configure the HTTP request pipeline.
