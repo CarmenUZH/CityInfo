@@ -2,6 +2,7 @@ using CityInfo.API;
 using CityInfo.API.DbContexts;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration() //External logger! yay!
@@ -39,7 +40,7 @@ builder.Services.AddTransient<IMailService, CloudMailService>(); //register serv
 
 builder.Services.AddSingleton<CitiesDataStore>(); //Dependency injection
 //where to find database defined in CityContext
-builder.Services.AddDbContext<CityContext>();
+builder.Services.AddDbContext<CityContext>(dbContextOptions => dbContextOptions.UseSqlite("Data Source=CityInfo.db"));
 //Implement the Interface to allow for different implementations
 
 var app = builder.Build(); //build webaplication and returns it (app)

@@ -8,10 +8,9 @@ namespace CityInfo.API.DbContexts
         public DbSet<City> Cities { get; set; } = null!;//Not nullable!! DbContext handles that in background
         public DbSet<PointOfInterest> PointsOfInterest { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+       public CityContext(DbContextOptions<CityContext> options) : base(options)
         {
-            optionsBuilder.UseSqlite(); //What database to use
-            base.OnConfiguring(optionsBuilder);
+
         }
     }
 }
