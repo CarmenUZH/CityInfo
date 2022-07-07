@@ -27,16 +27,17 @@ namespace CityInfo.API.Controllers
            // return Ok( _citiesDataStore.Cities);
         }
 
-       /* [HttpGet("{id}")]
-        public ActionResult<CityDto> GetCity(int id) //Return an actionresult and not something like Json because this makes us Independent
+       [HttpGet("{id}")]
+        public async Task <IActionResult> GetCity(int id, bool includePOI = false) //Return an Iactionresult and not something like Json because this makes us Independent
         {
-            var cityToReturn = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == id);
-            //FirstOrDefault returns first match or default value, will return "null" for nonexistant values
+            var cityToReturn = await _citiesDataStore.GetCityAsync(id, includePOI);
             if (cityToReturn == null)
             {
                 return NotFound();
             }
-            return Ok(cityToReturn); //Return city with 200ok statues
-        } */
+
+            return Ok(_mapper.Map<CityDto>(cityToReturn)); //Return city with 200ok statues
+            //Thanks to the POIProfile it now correctly deals with the points of interests too
+        } 
     }
 }

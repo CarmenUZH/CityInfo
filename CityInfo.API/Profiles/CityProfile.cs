@@ -7,6 +7,8 @@ namespace CityInfo.API.Profiles
         public CityProfile()
         {
             CreateMap<Entities.City, Models.CityNoPOIDto>(); //Establish what to map
+            CreateMap<Entities.City, Models.CityDto>(); //Establish what to map
+
         }
     }
 }

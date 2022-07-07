@@ -12,6 +12,26 @@ namespace CityInfo.API.Services
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
+
+        public async Task AddPOIForCityAsync(int cityId, PointOfInterest POI)
+        {
+            var city = await GetCityAsync(cityId, false);
+            if (city != null)
+            {
+                city.PointsOfInterest.Add(POI); //Alone doesnt persist POI, only adds it to inmemory representation of Database
+            }
+        }
+        public async Task<bool> SaveChangesAsync()
+        {
+            return (await _context.SaveChangesAsync() >= 0); //Saves the changes, like our commit in OdeToFood
+        }
+
+        public async Task<bool> CityExistsAsync(int cityId) //Easier way to determine if city even exists
+        {
+            return await _context.Cities.AnyAsync(c => c.Id == cityId);
+        }
+
+
         public async Task<IEnumerable<City>> GetCitiesAsync()
         {
             return await _context.Cities.OrderBy(c=> c.Name).ToListAsync();
