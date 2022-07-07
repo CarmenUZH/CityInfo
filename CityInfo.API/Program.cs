@@ -40,7 +40,7 @@ builder.Services.AddTransient<IMailService, CloudMailService>(); //register serv
 
 builder.Services.AddSingleton<CitiesDataStore>(); //Dependency injection
 //where to find database defined in CityContext
-builder.Services.AddDbContext<CityContext>(dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:CityDBConnectionString"]));
+builder.Services.AddDbContext<CityContext>(dbContextOptions => dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:CityDBConnectionString"])); //Can be defined in system itself to keep save, but for our purposes too advanced
 //Implement the Interface to allow for different implementations
 
 var app = builder.Build(); //build webaplication and returns it (app)
