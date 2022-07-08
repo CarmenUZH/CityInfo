@@ -92,7 +92,7 @@ namespace CityInfo.API.Controllers
             }
 
             var finalPointOfInterest = _mapper.Map<Entities.PointOfInterest>(POI);
-            await _citiesDataStore.AddPOIForCityAsync(cityId, finalPointOfInterest);
+            await _citiesDataStore.AddPOIForCityAsync(cityId, finalPointOfInterest); //In die Datenbank
             await _citiesDataStore.SaveChangesAsync();
             var createdPOI = _mapper.Map<Models.PointOfInterestDto>(finalPointOfInterest);
 
