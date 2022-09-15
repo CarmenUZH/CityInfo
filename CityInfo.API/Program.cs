@@ -15,8 +15,6 @@ Log.Logger = new LoggerConfiguration() //External logger! yay!
 var builder = WebApplication.CreateBuilder(args);
 /*builder.Logging.ClearProviders();
 builder.Logging.AddConsole();*/ //You can manually "unsubscribe" from all loggers and add them by hand if you want
-
-
 builder.Host.UseSerilog(); //Tell program to not use default logger
 
 // Starting point of our application, Main Methods gets created behind the scenes
@@ -75,3 +73,4 @@ await context.Response.WriteAsync("Hello World!");
 
 
 app.Run(); //starts it, at end
+
