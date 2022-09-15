@@ -39,6 +39,7 @@ namespace CityInfo.API.Controllers
             }
             var bytes = System.IO.File.ReadAllBytes(pathToFile);
             Console.WriteLine(Thoughts);
+            Console.WriteLine(ComicThoughts.Length);
             return File(bytes,contentType, Path.GetFileName(pathToFile)); //Content type for pdf is not "text/plain", gets determined by the file extension content blödsinn
         }
     }
